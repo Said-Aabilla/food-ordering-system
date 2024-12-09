@@ -27,6 +27,10 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- Add all other modules here except order-container because it will
+             not be used by other modules-->
+
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>order-domain-core</artifactId>
