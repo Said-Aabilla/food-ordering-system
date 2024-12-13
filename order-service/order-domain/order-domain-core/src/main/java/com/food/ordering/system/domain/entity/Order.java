@@ -30,6 +30,35 @@ public class Order extends AggregateRoot<OrderId>{
         validateItemsPrice();
     }
 
+    public void pay (){
+        if(orderStatus !=  OrderStatus.PENDING){
+            throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid for payment!");
+        }
+        orderStatus = OrderStatus.PAID;
+    }
+
+    public void approve(){
+        if(orderStatus !=  OrderStatus.PAID){
+            throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid for validation!");
+        }
+        orderStatus = OrderStatus.APPROVED;
+    }
+
+    public void initCancel(){
+        if(orderStatus !=  OrderStatus.PAID){
+            throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid for cancelling!");
+        }
+        orderStatus = OrderStatus.CANCELLING;
+    }
+
+    public void cancel(){
+        if(!(orderStatus ==  OrderStatus.CANCELLING || orderStatus ==  OrderStatus.PENDING)){
+            throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid to cancel!");
+        }
+        orderStatus = OrderStatus.CANCELLED;
+    }
+
+
     private void validateInitialOrder() {
       if(orderStatus != null || getId() !=null){
           throw new OrderDomainException("Order is not in correct state for initialization!");
