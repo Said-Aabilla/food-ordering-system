@@ -44,20 +44,32 @@ public class Order extends AggregateRoot<OrderId>{
         orderStatus = OrderStatus.APPROVED;
     }
 
-    public void initCancel(){
+    public void initCancel(List<String> failureMessages){
         if(orderStatus !=  OrderStatus.PAID){
             throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid for cancelling!");
         }
         orderStatus = OrderStatus.CANCELLING;
+        updateFailureMessages(failureMessages);
     }
 
-    public void cancel(){
+    public void cancel(List<String> failureMessages){
         if(!(orderStatus ==  OrderStatus.CANCELLING || orderStatus ==  OrderStatus.PENDING)){
             throw new OrderDomainException("Order status: " + orderStatus.toString() + " is not valid to cancel!");
         }
         orderStatus = OrderStatus.CANCELLED;
+        updateFailureMessages(failureMessages);
     }
 
+
+    private void updateFailureMessages(List<String> failureMessages) {
+        if(this.failureMessages != null && failureMessages != null){
+            this.failureMessages.addAll(failureMessages.stream().filter(message -> !message.isEmpty()).toList());
+        }
+
+        if(this.failureMessages == null){
+            this.failureMessages = failureMessages;
+        }
+    }
 
     private void validateInitialOrder() {
       if(orderStatus != null || getId() !=null){
