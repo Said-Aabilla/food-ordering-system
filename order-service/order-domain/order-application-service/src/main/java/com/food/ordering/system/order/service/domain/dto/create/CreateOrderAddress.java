@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 @Builder
-public class OrderAddress {
+public class CreateOrderAddress {
 
     @NotNull
     @Max(value = 10)

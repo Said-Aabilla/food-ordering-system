@@ -1,7 +1,6 @@
 package com.food.ordering.system.order.service.domain.dto.create;
 
 
-import com.food.ordering.system.domain.entity.OrderItem;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Builder
-public class CreateOrderCommandDto {
+public class CreateOrderCommand {
 
 
     @NotNull
@@ -27,9 +26,9 @@ public class CreateOrderCommandDto {
     public final BigDecimal price;
 
     @NotNull
-    public final List<OrderItem> orderItems;
+    public final List<CreateOrderItem> createOrderItems;
 
     @NotNull
-    public final OrderAddress orderAddress;
+    public final CreateOrderAddress createOrderAddress;
 
 }
