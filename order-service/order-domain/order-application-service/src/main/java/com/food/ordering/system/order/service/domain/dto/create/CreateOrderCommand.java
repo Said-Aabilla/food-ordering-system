@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Builder
-public class CreateOrderCommand {
+public class CreateOrderCommandDto {
 
 
     @NotNull
