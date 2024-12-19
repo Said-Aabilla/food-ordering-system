@@ -10,6 +10,7 @@ import com.food.ordering.system.order.service.domain.dto.create.CreateOrderComma
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderAddress;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderItem;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
+import com.food.ordering.system.order.service.domain.dto.track.TrackingOrderResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -39,6 +40,22 @@ public class OrderDataMapper {
                 .build();
     }
 
+    public CreateOrderResponse orderToCreateOrderResponse(Order orderResult) {
+        return  CreateOrderResponse.builder()
+                .trackingId(orderResult.getTrackingId().getValue())
+                .orderStatus(orderResult.getOrderStatus())
+                .build();
+    }
+
+
+    public TrackingOrderResponse orderToTrackingOrderResponse(Order order){
+        return TrackingOrderResponse.builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
+                .build();
+    }
+
     private List<OrderItem> createOrderItemsToOrderItems(List<CreateOrderItem> createOrderItems) {
         return createOrderItems.stream()
                 .map(createOrderItem
@@ -58,12 +75,5 @@ public class OrderDataMapper {
                 createOrderAddress.getPostalCode(),
                 createOrderAddress.getCity()
         );
-    }
-
-    public CreateOrderResponse orderToCreateOrderResponse(Order orderResult) {
-        return  CreateOrderResponse.builder()
-                .trackingId(orderResult.getTrackingId().getValue())
-                .orderStatus(orderResult.getOrderStatus())
-                .build();
     }
 }
