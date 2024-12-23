@@ -4,17 +4,19 @@ import com.food.ordering.system.domain.entity.Customer;
 import com.food.ordering.system.domain.entity.Order;
 import com.food.ordering.system.domain.entity.Product;
 import com.food.ordering.system.domain.entity.Restaurant;
+import com.food.ordering.system.domain.exception.OrderDomainException;
 import com.food.ordering.system.domain.valueobject.*;
-import com.food.ordering.system.order.service.domain.OrderCreateCommandHandler;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderAddress;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderItem;
+import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import com.food.ordering.system.order.service.domain.ports.input.service.OrderApplicationService;
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -55,8 +58,9 @@ public class OrderApplicationServiceTest {
     private final UUID CUSTOMER_ID = UUID.fromString("1e9f6bb9-1f32-49d2-9df0-bc6616f39785");
     private final UUID RESTAURANT_ID = UUID.fromString("2e5f6bb9-1f32-49d2-9df0-bc6616f39785");
     private final UUID PRODUCT_ID = UUID.fromString("3e9f6bb9-1f32-49d2-9df0-bc6616f39785");
+    private final UUID PRODUCT_ID_2 = UUID.fromString("9e9f6bb9-2f32-49d2-9df0-bc6616f39785");
     private final UUID ORDER_ID = UUID.fromString("4ef6bb9-1f32-49d2-9df0-bc6616f39785");
-    private final BigDecimal PRICE = BigDecimal.valueOf(200.00);
+    private final BigDecimal PRICE = new BigDecimal("200.00");
 
 
     @BeforeAll
@@ -75,14 +79,14 @@ public class OrderApplicationServiceTest {
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)
-                                .subTotal(BigDecimal.valueOf(50.00))
-                                .price(BigDecimal.valueOf(50.00))
+                                .price(new BigDecimal("50.00"))
+                                .subTotal(new BigDecimal("50.00"))
                                 .build(),
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(3)
-                                .subTotal(BigDecimal.valueOf(150.00))
-                                .price(BigDecimal.valueOf(50.00))
+                                .price(new BigDecimal("50.00"))
+                                .subTotal(new BigDecimal("150.00"))
                                 .build()
                 ))
                 .build();
@@ -95,24 +99,24 @@ public class OrderApplicationServiceTest {
                         .postalCode("40000")
                         .street("Hay Ryad")
                         .build())
-                .price(BigDecimal.valueOf(250.00))
+                .price(new BigDecimal("250.00"))
                 .createOrderItems(List.of(
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)
-                                .subTotal(BigDecimal.valueOf(50.00))
-                                .price(BigDecimal.valueOf(50.00))
+                                .subTotal(new BigDecimal("50.00"))
+                                .price(new BigDecimal("50.00"))
                                 .build(),
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(3)
-                                .subTotal(BigDecimal.valueOf(150.00))
-                                .price(BigDecimal.valueOf(50.00))
+                                .subTotal(new BigDecimal("150.00"))
+                                .price(new BigDecimal("50.00"))
                                 .build()
                 ))
                 .build();
 
-        createOrderCommand = CreateOrderCommand.builder()
+        createOrderCommandWrongProductPrice = CreateOrderCommand.builder()
                 .customerId(CUSTOMER_ID)
                 .restaurantId(RESTAURANT_ID)
                 .createOrderAddress(CreateOrderAddress.builder()
@@ -120,19 +124,19 @@ public class OrderApplicationServiceTest {
                         .postalCode("40000")
                         .street("Hay Ryad")
                         .build())
-                .price(BigDecimal.valueOf(210.00))
+                .price(new BigDecimal("210.00"))
                 .createOrderItems(List.of(
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)
-                                .subTotal(BigDecimal.valueOf(60.00))
-                                .price(BigDecimal.valueOf(60.00))
+                                .subTotal(new BigDecimal("60.00"))
+                                .price(new BigDecimal("60.00"))
                                 .build(),
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(3)
-                                .subTotal(BigDecimal.valueOf(150.00))
-                                .price(BigDecimal.valueOf(50.00))
+                                .subTotal(new BigDecimal("150.00"))
+                                .price(new BigDecimal("50.00"))
                                 .build()
                 ))
                 .build();
@@ -143,8 +147,8 @@ public class OrderApplicationServiceTest {
         Restaurant restaurant = Restaurant.builder()
                 .restaurantId(new RestaurantId(RESTAURANT_ID))
                 .products(List.of(
-                        new Product(new ProductId(PRODUCT_ID), "product-1", new Money(BigDecimal.valueOf(50.00))),
-                        new Product(new ProductId(PRODUCT_ID), "product-2", new Money(BigDecimal.valueOf(50.00)))
+                        new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.00"))),
+                        new Product(new ProductId(PRODUCT_ID_2), "product-2", new Money(new BigDecimal("50.00")))
                 ))
                 .active(true)
                 .build();
@@ -157,6 +161,49 @@ public class OrderApplicationServiceTest {
         ).thenReturn(Optional.of(restaurant));
         when(orderRepository.save(any(Order.class))).thenReturn(order);
     }
+
+
+    @Test
+    public void testCreateOrder(){
+        CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
+        assertEquals(createOrderResponse.getOrderStatus(), OrderStatus.PENDING);
+        assertEquals(createOrderResponse.getMessage(), "Order Created Successfully");
+        assertNotNull(createOrderResponse.getTrackingId());
+    }
+
+    @Test
+    public void testCreateOrderWithWrongTotalPrice(){
+        OrderDomainException orderDomainException = assertThrows( OrderDomainException.class, () -> orderApplicationService.createOrder(createOrderCommandWrongPrice));
+        assertEquals(orderDomainException.getMessage(), "Total price: 250.00 is not equal to Order items total: 200.00 !");
+    }
+
+
+    @Test
+    public void testCreateOrderWithWrongProductPrice(){
+        OrderDomainException orderDomainException = assertThrows( OrderDomainException.class, () -> orderApplicationService.createOrder(createOrderCommandWrongProductPrice));
+        assertEquals(orderDomainException.getMessage(), "Order Item price: 60.00 is not valid for product: 3e9f6bb9-1f32-49d2-9df0-bc6616f39785 !");
+    }
+
+    @Test
+    public void testCreateOrderWithPassiveRestaurant(){
+
+        Restaurant restaurant = Restaurant.builder()
+                .restaurantId(new RestaurantId(RESTAURANT_ID))
+                .products(List.of(
+                        new Product(new ProductId(PRODUCT_ID), "product-1", new Money(new BigDecimal("50.00"))),
+                        new Product(new ProductId(PRODUCT_ID_2), "product-2", new Money(new BigDecimal("50.00")))
+                ))
+                .active(false)
+                .build();
+
+        when(restaurantRepository.findRestaurantInformation(
+                orderDataMapper.createOrderCommandToRestaurant(createOrderCommand))
+        ).thenReturn(Optional.of(restaurant));
+
+        OrderDomainException orderDomainException = assertThrows( OrderDomainException.class, () -> orderApplicationService.createOrder(createOrderCommand));
+        assertEquals(orderDomainException.getMessage(), "Restaurant : 2e5f6bb9-1f32-49d2-9df0-bc6616f39785 is not active for orders!");
+    }
+
 
 }
 
