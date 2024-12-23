@@ -25,7 +25,7 @@ public class OrderDomainServiceImpl implements  OrderDomainService{
         setOrderProductInformation(order, restaurant);
         order.validateOrder();
         order.initializeOrder();
-        log.info("Order with id: {} is initiated", order.getId().toString());
+        log.info("Order with id: {} is initiated", order.getId().getValue());
         return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(TIMEZONE)));
     }
 
@@ -56,7 +56,7 @@ public class OrderDomainServiceImpl implements  OrderDomainService{
 
     private void validateRestaurant(Restaurant restaurant) {
         if(!restaurant.isActive()){
-            throw new OrderDomainException("Restaurant : " + restaurant.getId().toString()+ " is not active for orders!");
+            throw new OrderDomainException("Restaurant : " + restaurant.getId().getValue()+ " is not active for orders!");
         }
     }
 
