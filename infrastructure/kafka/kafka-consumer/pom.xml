@@ -11,4 +11,19 @@
 
     <artifactId>kafka-consumer</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-config-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+        </dependency>
+    </dependencies>
 </project>
