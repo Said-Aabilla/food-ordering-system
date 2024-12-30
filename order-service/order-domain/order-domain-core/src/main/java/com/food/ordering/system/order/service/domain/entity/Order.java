@@ -1,7 +1,8 @@
-package com.food.ordering.system.domain.entity;
+package com.food.ordering.system.order.service.domain.entity;
 
-import com.food.ordering.system.domain.exception.OrderDomainException;
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.domain.valueobject.*;
+import com.food.ordering.system.order.service.domain.valueobject.*;
 
 import java.util.List;
 import java.util.UUID;
