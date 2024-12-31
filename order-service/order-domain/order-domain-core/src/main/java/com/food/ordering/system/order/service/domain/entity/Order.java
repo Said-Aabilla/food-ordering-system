@@ -1,7 +1,6 @@
 package com.food.ordering.system.order.service.domain.entity;
 
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
-import com.food.ordering.system.domain.valueobject.*;
 import com.food.ordering.system.order.service.domain.valueobject.*;
 
 import java.util.List;
@@ -18,6 +17,7 @@ public class Order extends AggregateRoot<OrderId>{
     private OrderStatus orderStatus;
     private List<String> failureMessages;
 
+    public static final String FAILURE_MESSAGE_DELIMITER = ",";
 
     public static Builder builder() {
         return new Builder();
