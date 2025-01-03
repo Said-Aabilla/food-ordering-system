@@ -1,12 +1,11 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.ordering.system.order.service.messaging.order.service.domain.OrderDomainService;
-import com.food.ordering.system.order.service.messaging.order.service.domain.entity.Customer;
-import com.food.ordering.system.order.service.messaging.order.service.domain.entity.Order;
-import com.food.ordering.system.order.service.messaging.order.service.domain.entity.Restaurant;
-import com.food.ordering.system.order.service.messaging.order.service.domain.event.OrderCreatedEvent;
-import com.food.ordering.system.order.service.messaging.order.service.domain.exception.DomainException;
-import com.food.ordering.system.order.service.messaging.order.service.domain.exception.OrderDomainException;
+import com.food.ordering.system.order.service.domain.entity.Customer;
+import com.food.ordering.system.order.service.domain.entity.Order;
+import com.food.ordering.system.order.service.domain.entity.Restaurant;
+import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import com.food.ordering.system.order.service.domain.exception.DomainException;
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;

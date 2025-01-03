@@ -1,6 +1,6 @@
 package com.food.ordering.system.order.service.domain.dto.track;
 
-import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.OrderStatus;
+import com.food.ordering.system.order.service.domain.valueobject.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
