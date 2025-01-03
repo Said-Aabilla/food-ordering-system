@@ -1,10 +1,10 @@
-package com.food.ordering.system.order.service.data.access.order.adapter;
+package com.food.ordering.system.order.service.messaging.order.service.data.access.order.adapter;
 
-import com.food.ordering.system.order.service.data.access.order.mapper.OrderDataAccessMapper;
-import com.food.ordering.system.order.service.data.access.order.repository.OrderJpaRepository;
-import com.food.ordering.system.order.service.domain.entity.Order;
+import com.food.ordering.system.order.service.messaging.order.service.data.access.order.mapper.OrderDataAccessMapper;
+import com.food.ordering.system.order.service.messaging.order.service.data.access.order.repository.OrderJpaRepository;
+import com.food.ordering.system.order.service.messaging.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
-import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
+import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.TrackingId;
 
 import java.util.Optional;
 

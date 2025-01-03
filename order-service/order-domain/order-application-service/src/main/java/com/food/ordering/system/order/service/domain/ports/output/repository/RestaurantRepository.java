@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.order.service.domain.ports.output.repository;
+package com.food.ordering.system.order.service.domain.ports.output.repository;
 
 import com.food.ordering.system.order.service.messaging.order.service.domain.entity.Restaurant;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.domain.entity;
+package com.food.ordering.system.order.service.messaging.order.service.domain.entity;
 
 import java.util.Objects;
 

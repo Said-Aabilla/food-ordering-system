@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.order.service.domain.dto.create;
+package com.food.ordering.system.order.service.domain.dto.create;
 
 
 import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.OrderStatus;

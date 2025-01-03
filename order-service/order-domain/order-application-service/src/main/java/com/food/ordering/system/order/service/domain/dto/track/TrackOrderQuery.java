@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.order.service.domain.dto.track;
+package com.food.ordering.system.order.service.domain.dto.track;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.food.ordering.system.application.common.handler;
+package com.food.ordering.system.order.service.messaging.application.common.handler;
 
 
 import lombok.AllArgsConstructor;

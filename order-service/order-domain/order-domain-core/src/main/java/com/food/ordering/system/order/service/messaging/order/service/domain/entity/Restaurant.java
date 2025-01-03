@@ -1,6 +1,6 @@
-package com.food.ordering.system.order.service.domain.entity;
+package com.food.ordering.system.order.service.messaging.order.service.domain.entity;
 
-import com.food.ordering.system.order.service.domain.valueobject.RestaurantId;
+import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.RestaurantId;
 
 import java.util.List;
 

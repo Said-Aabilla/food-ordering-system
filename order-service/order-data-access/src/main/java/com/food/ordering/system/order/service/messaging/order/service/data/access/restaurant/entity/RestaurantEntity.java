@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.data.access.restaurant.entity;
+package com.food.ordering.system.order.service.messaging.order.service.data.access.restaurant.entity;
 
 
 import jakarta.persistence.Entity;

@@ -1,9 +1,12 @@
-package com.food.ordering.system.kafka.consumer;
+package com.food.ordering.system.order.service.messaging.kafka.consumer;
 
 import org.apache.avro.specific.SpecificRecordBase;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface KafkaProducer <T extends SpecificRecordBase>{
-    void receive(List<T> messages, List<Long> keys, List<Integer> positions, List<Long> offsets);
+public interface KafkaProducer<K extends Serializable, V extends SpecificRecordBase> {
+    void send(String topicName, K key, V message, ListenableFutureCallback<SendResult<K, V>> callback);
 }

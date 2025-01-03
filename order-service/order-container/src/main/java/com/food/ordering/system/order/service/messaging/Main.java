@@ -1,4 +1,4 @@
-package com.food.ordering.system;
+package com.food.ordering.system.order.service.messaging;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.

@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.order.service.domain.dto.message;
+package com.food.ordering.system.order.service.domain.dto.message;
 
 import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.PaymentStatus;
 import lombok.AllArgsConstructor;

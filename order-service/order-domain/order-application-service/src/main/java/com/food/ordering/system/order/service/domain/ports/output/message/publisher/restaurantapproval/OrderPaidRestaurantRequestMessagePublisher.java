@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.messaging.order.service.domain.ports.output.message.publisher.restaurantapproval;
+package com.food.ordering.system.order.service.domain.ports.output.message.publisher.restaurantapproval;
 
 
 import com.food.ordering.system.order.service.messaging.order.service.domain.event.OrderPaidEvent;

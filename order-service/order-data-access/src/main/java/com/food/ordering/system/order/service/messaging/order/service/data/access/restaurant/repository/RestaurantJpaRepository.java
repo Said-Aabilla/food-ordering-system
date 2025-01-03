@@ -1,7 +1,7 @@
-package com.food.ordering.system.order.service.data.access.restaurant.repository;
+package com.food.ordering.system.order.service.messaging.order.service.data.access.restaurant.repository;
 
-import com.food.ordering.system.order.service.data.access.restaurant.entity.RestaurantEntity;
-import com.food.ordering.system.order.service.data.access.restaurant.entity.RestaurantEntityId;
+import com.food.ordering.system.order.service.messaging.order.service.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.order.service.messaging.order.service.data.access.restaurant.entity.RestaurantEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

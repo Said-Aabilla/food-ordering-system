@@ -1,4 +1,4 @@
-package com.food.ordering.system.application.common.handler;
+package com.food.ordering.system.order.service.messaging.application.common.handler;
 
 
 import jakarta.validation.ConstraintViolation;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j

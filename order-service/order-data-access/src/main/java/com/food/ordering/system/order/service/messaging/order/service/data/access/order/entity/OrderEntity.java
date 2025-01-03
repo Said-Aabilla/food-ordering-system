@@ -1,12 +1,11 @@
-package com.food.ordering.system.order.service.data.access.order.entity;
+package com.food.ordering.system.order.service.messaging.order.service.data.access.order.entity;
 
-import com.food.ordering.system.order.service.domain.valueobject.OrderStatus;
+import com.food.ordering.system.order.service.messaging.order.service.domain.valueobject.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Getter
