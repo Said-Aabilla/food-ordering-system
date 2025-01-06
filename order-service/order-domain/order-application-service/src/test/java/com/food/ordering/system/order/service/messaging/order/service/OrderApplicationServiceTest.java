@@ -70,13 +70,13 @@ public class OrderApplicationServiceTest {
         createOrderCommand = CreateOrderCommand.builder()
                 .customerId(CUSTOMER_ID)
                 .restaurantId(RESTAURANT_ID)
-                .createOrderAddress(CreateOrderAddress.builder()
+                .address(CreateOrderAddress.builder()
                         .city("Rabat")
                         .postalCode("40000")
                         .street("Hay Ryad")
                         .build())
                 .price(PRICE)
-                .createOrderItems(List.of(
+                .items(List.of(
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)
@@ -95,13 +95,13 @@ public class OrderApplicationServiceTest {
         createOrderCommandWrongPrice = CreateOrderCommand.builder()
                 .customerId(CUSTOMER_ID)
                 .restaurantId(RESTAURANT_ID)
-                .createOrderAddress(CreateOrderAddress.builder()
+                .address(CreateOrderAddress.builder()
                         .city("Rabat")
                         .postalCode("40000")
                         .street("Hay Ryad")
                         .build())
                 .price(new BigDecimal("250.00"))
-                .createOrderItems(List.of(
+                .items(List.of(
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)
@@ -120,13 +120,13 @@ public class OrderApplicationServiceTest {
         createOrderCommandWrongProductPrice = CreateOrderCommand.builder()
                 .customerId(CUSTOMER_ID)
                 .restaurantId(RESTAURANT_ID)
-                .createOrderAddress(CreateOrderAddress.builder()
+                .address(CreateOrderAddress.builder()
                         .city("Rabat")
                         .postalCode("40000")
                         .street("Hay Ryad")
                         .build())
                 .price(new BigDecimal("210.00"))
-                .createOrderItems(List.of(
+                .items(List.of(
                         CreateOrderItem.builder()
                                 .productId(PRODUCT_ID)
                                 .quantity(1)

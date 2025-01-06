@@ -12,7 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class OrderItemEntityId implements Serializable {
     private Long id;
-    private OrderEntity orderEntity;
+    private OrderEntity order;
 
 
     @Override
@@ -20,11 +20,11 @@ public class OrderItemEntityId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderItemEntityId that = (OrderItemEntityId) o;
-        return Objects.equals(id, that.id) && Objects.equals(orderEntity, that.orderEntity);
+        return Objects.equals(id, that.id) && Objects.equals(order, that.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderEntity);
+        return Objects.hash(id, order);
     }
 }
