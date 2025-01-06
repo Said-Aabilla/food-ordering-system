@@ -16,6 +16,7 @@ CREATE TABLE "order".orders
     customer_id uuid NOT NULL,
     restaurant_id uuid NOT NULL,
     tracking_id uuid NOT NULL,
+    price numeric(10,2) NOT NULL,
     order_status order_status NOT NULL,
     failure_messages character varying COLLATE  pg_catalog."default",
     CONSTRAINT orders_pkey primary key (id)
@@ -40,3 +41,23 @@ ALTER TABLE "order".order_items
     ON UPDATE NO ACTION
     ON DELETE CASCADE
     NOT VALID ;
+
+
+DROP TABLE IF EXISTS "order".order_address CASCADE;
+
+CREATE TABLE "order".order_address
+(
+    id uuid NOT NULL,
+    order_id uuid UNIQUE NOT NULL,
+    street character varying COLLATE pg_catalog."default" NOT NULL,
+    postal_code character varying COLLATE pg_catalog."default" NOT NULL,
+    city character varying COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT order_address_pkey PRIMARY KEY (id, order_id)
+);
+
+ALTER TABLE "order".order_address
+    ADD CONSTRAINT "FK_ORDER_ID" FOREIGN KEY (order_id)
+        REFERENCES "order".orders (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+    NOT VALID;
