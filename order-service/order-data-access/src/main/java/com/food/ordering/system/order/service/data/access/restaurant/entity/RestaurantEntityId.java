@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RestaurantEntityId implements Serializable {
 
-    private UUID id;
+    private UUID restaurantId;
     private UUID productId;
 
     @Override
@@ -22,11 +22,11 @@ public class RestaurantEntityId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RestaurantEntityId that = (RestaurantEntityId) o;
-        return Objects.equals(id, that.id) && Objects.equals(productId, that.productId);
+        return Objects.equals(restaurantId, that.restaurantId) && Objects.equals(productId, that.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productId);
+        return Objects.hash(restaurantId, productId);
     }
 }

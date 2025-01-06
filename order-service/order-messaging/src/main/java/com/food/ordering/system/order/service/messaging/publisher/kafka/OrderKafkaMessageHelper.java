@@ -30,7 +30,7 @@ public class OrderKafkaMessageHelper {
             public void onSuccess(SendResult<String, PaymentRequestAvroModel> result) {
                 RecordMetadata recordMetadata = result.getRecordMetadata();
 
-                log.error("Received successful response from Kafka for order is {}" +
+                log.info("Received successful response from Kafka for order is {}" +
                                 "Topic: {} Partition: {} Offset: {} TimeStamp: {}",
                         paymentRequestAvroModel.getOrderId(),
                         recordMetadata.topic(),
