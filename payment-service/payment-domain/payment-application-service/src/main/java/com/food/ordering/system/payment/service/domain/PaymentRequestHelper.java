@@ -24,9 +24,9 @@ public class PaymentRequestHelper {
 
     private final PaymentDomainService paymentDomainService;
     private final PaymentDataMapper paymentDataMapper;
-    public final PaymentRepository paymentRepository;
-    public final CreditEntryRepository creditEntryRepository;
-    public final CreditHistoryRepository creditHistoryRepository;
+    private final PaymentRepository paymentRepository;
+    private final CreditEntryRepository creditEntryRepository;
+    private final CreditHistoryRepository creditHistoryRepository;
 
 
     public PaymentRequestHelper(PaymentDomainService paymentDomainService,
