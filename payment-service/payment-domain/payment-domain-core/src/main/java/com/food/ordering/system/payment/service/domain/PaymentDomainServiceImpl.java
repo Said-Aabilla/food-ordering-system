@@ -18,6 +18,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static com.food.ordering.system.domain.constant.DomainConstant.ZONE_ID;
+
 @Slf4j
 public class PaymentDomainServiceImpl implements PaymentDomainService {
 
@@ -39,11 +41,11 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
         if(failureMessages.isEmpty()){
             log.info("Payment is initiated for order with id: {}", payment.getOrderId().getValue());
             payment.updatePaymentStatus(PaymentStatus.COMPLETED);
-            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of("GMT")));
+            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(ZONE_ID)));
         }else{
             log.info("Payment initialization failed for order with id: {}", payment.getOrderId().getValue());
             payment.updatePaymentStatus(PaymentStatus.FAILED);
-            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of("GMT")), failureMessages);
+            return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(ZONE_ID)), failureMessages);
         }
 
     }
