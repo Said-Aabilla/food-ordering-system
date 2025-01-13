@@ -1,5 +1,6 @@
 package com.food.ordering.system.payment.service.domain;
 
+import com.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
@@ -28,7 +29,9 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
     public PaymentEvent validateAndInitiatePayment(Payment payment,
                                                    CreditEntry creditEntry,
                                                    List<CreditHistory> creditHistories,
-                                                   List<String> failureMessages) {
+                                                   List<String> failureMessages,
+                                                   DomainEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher
+    ) {
 
         payment.validatePayment(failureMessages);
         payment.initializePayment();
@@ -41,7 +44,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
         if(failureMessages.isEmpty()){
             log.info("Payment is initiated for order with id: {}", payment.getOrderId().getValue());
             payment.updatePaymentStatus(PaymentStatus.COMPLETED);
-            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(ZONE_ID)));
+            return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(ZONE_ID)), paymentCompletedEventDomainEventPublisher);
         }else{
             log.info("Payment initialization failed for order with id: {}", payment.getOrderId().getValue());
             payment.updatePaymentStatus(PaymentStatus.FAILED);

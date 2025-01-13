@@ -9,6 +9,7 @@ import com.food.ordering.system.payment.service.domain.entity.Payment;
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
 import com.food.ordering.system.payment.service.domain.exception.PaymentApplicationServiceException;
 import com.food.ordering.system.payment.service.domain.mapper.PaymentDataMapper;
+import com.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentCompletedMessagePublisher;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.PaymentRepository;
@@ -28,17 +29,21 @@ public class PaymentRequestHelper {
     private final CreditEntryRepository creditEntryRepository;
     private final CreditHistoryRepository creditHistoryRepository;
 
+    private final PaymentCompletedMessagePublisher paymentCompletedMessagePublisher;
+
 
     public PaymentRequestHelper(PaymentDomainService paymentDomainService,
                                 PaymentDataMapper paymentDataMapper,
                                 PaymentRepository paymentRepository,
                                 CreditEntryRepository creditEntryRepository,
-                                CreditHistoryRepository creditHistoryRepository) {
+                                CreditHistoryRepository creditHistoryRepository,
+                                PaymentCompletedMessagePublisher paymentCompletedMessagePublisher) {
         this.paymentDomainService = paymentDomainService;
         this.paymentDataMapper = paymentDataMapper;
         this.paymentRepository = paymentRepository;
         this.creditEntryRepository = creditEntryRepository;
         this.creditHistoryRepository = creditHistoryRepository;
+        this.paymentCompletedMessagePublisher = paymentCompletedMessagePublisher;
     }
 
 
@@ -55,7 +60,8 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(payment,
                 creditEntry,
                 creditHistory,
-                failureMessages);
+                failureMessages,
+                paymentCompletedMessagePublisher);
 
         persistDbObjects(payment, creditEntry, creditHistory, failureMessages);
 
