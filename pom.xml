@@ -6,22 +6,133 @@
 
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.5</version>
+        <relativePath />
     </parent>
-
 
     <groupId>com.food.ordering.system</groupId>
     <artifactId>food-ordering-system</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <!--  accepts 2 properties: default jar  -->
     <packaging>pom</packaging>
 
+    <modules>
+        <module>common</module>
+        <module>infrastructure</module>
+        <module>order-service</module>
+        <module>customer-service</module>
+    </modules>
+
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
+        <java.version>17</java.version>
+        <mockito.version>4.3.1</mockito.version>
+        <spring-kafka.version>2.9.13</spring-kafka.version>
+        <spring-avro-serializer.version>7.0.1</spring-avro-serializer.version>
+        <avro-version.version>1.11.0</avro-version.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Add all other modules here except order-container because it will
+             not be used by other modules-->
+
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-data-access</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>order-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-config-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+    </build>
 </project>
