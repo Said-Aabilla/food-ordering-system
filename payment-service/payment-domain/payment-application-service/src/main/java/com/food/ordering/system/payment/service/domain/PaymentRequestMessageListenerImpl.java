@@ -1,13 +1,8 @@
 package com.food.ordering.system.payment.service.domain;
 
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
-import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
-import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
 import com.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
-import com.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentCancelledMessagePublisher;
-import com.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentCompletedMessagePublisher;
-import com.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentFailedMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +11,19 @@ import org.springframework.stereotype.Service;
 public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageListener {
 
     private final PaymentRequestHelper paymentRequestHelper;
-    private final PaymentCancelledMessagePublisher paymentCancelledMessagePublisher;
-    private final PaymentFailedMessagePublisher paymentFailedMessagePublisher;
 
-    public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper,
-                                             PaymentCancelledMessagePublisher paymentCancelledMessagePublisher,
-                                             PaymentFailedMessagePublisher paymentFailedMessagePublisher) {
+    public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper) {
         this.paymentRequestHelper = paymentRequestHelper;
-        this.paymentCancelledMessagePublisher = paymentCancelledMessagePublisher;
-        this.paymentFailedMessagePublisher = paymentFailedMessagePublisher;
     }
 
 
     @Override
     public void completePayment(PaymentRequest paymentRequest) {
         PaymentEvent paymentEvent = paymentRequestHelper.persistPayment(paymentRequest);
-        paymentEvent.fire();
+        fireEvent(paymentEvent);
     }
+
+
 
     @Override
     public void cancelPayment(PaymentRequest paymentRequest) {
@@ -40,21 +31,30 @@ public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageL
         fireEvent(paymentEvent);
     }
 
-    private void fireEvent(PaymentEvent paymentEvent) {
-
+    private void fireEvent( PaymentEvent paymentEvent) {
         log.info("Publishing Payment Event with Payment id: {} and Order id: {}", paymentEvent.getPayment().getId(),
                 paymentEvent.getPayment().getOrderId());
 
-        /*if (paymentEvent instanceof PaymentCompletedEvent) {
-            paymentCompletedMessagePublisher.publish((PaymentCompletedEvent) paymentEvent);
-        } else */
-
-
-            if (paymentEvent instanceof PaymentCancelledEvent) {
-            paymentCancelledMessagePublisher.publish((PaymentCancelledEvent) paymentEvent);
-        } else if (paymentEvent instanceof PaymentFailedEvent) {
-            paymentFailedMessagePublisher.publish((PaymentFailedEvent) paymentEvent);
-        }
-
+        paymentEvent.fire();
     }
+
+    /*
+        This was the old approach before adding the fire method in DomainEvent Interface
+        extend it in the 3 PaymentEvent-Type- classes and adding a property of type :
+        DomainEventPublisher<PaymentEvent-Type-> to be used inside the fire() method that will
+        invoke the publish() method of domain event, which means the payment event object itself
+        will invoke it through fire().
+
+            private void fireEvent(PaymentEvent paymentEvent) {
+                log.info("Publishing Payment Event with Payment id: {} and Order id: {}", paymentEvent.getPayment().getId(),
+                        paymentEvent.getPayment().getOrderId());
+                if (paymentEvent instanceof PaymentCompletedEvent) {
+                    paymentCompletedMessagePublisher.publish((PaymentCompletedEvent) paymentEvent);
+                } else if (paymentEvent instanceof PaymentCancelledEvent) {
+                    paymentCancelledMessagePublisher.publish((PaymentCancelledEvent) paymentEvent);
+                } else if (paymentEvent instanceof PaymentFailedEvent) {
+                    paymentFailedMessagePublisher.publish((PaymentFailedEvent) paymentEvent);
+                }
+               }
+    */
 }
