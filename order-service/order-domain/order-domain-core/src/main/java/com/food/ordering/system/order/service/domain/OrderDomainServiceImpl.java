@@ -1,5 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
+import com.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -15,25 +16,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.food.ordering.system.domain.constant.DomainConstant.ZONE_ID;
+
 
 @Slf4j
-public class OrderDomainServiceImpl implements  OrderDomainService{
-    private static final String TIMEZONE = "GMT";
+public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
-    public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
+    public OrderCreatedEvent validateAndInitiateOrder(Order order,
+                                                      Restaurant restaurant,
+                                                      DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher) {
         validateRestaurant(restaurant);
         setOrderProductInformation(order, restaurant);
         order.validateOrder();
         order.initializeOrder();
         log.info("Order with id: {} is initiated", order.getId().getValue());
-        return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(TIMEZONE)));
+        return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(ZONE_ID)), orderCreatedEventDomainEventPublisher);
     }
 
     @Override
-    public OrderPaidEvent payOrder(Order order) {
+    public OrderPaidEvent payOrder(Order order, DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
         order.pay();
         log.info("Order with id: {} is paid", order.getId().toString());
-        return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(TIMEZONE)));    }
+        return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(ZONE_ID)), orderPaidEventDomainEventPublisher);
+    }
 
     @Override
     public void approveOrder(Order order) {
@@ -42,10 +47,12 @@ public class OrderDomainServiceImpl implements  OrderDomainService{
     }
 
     @Override
-    public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
+    public OrderCancelledEvent cancelOrderPayment(Order order,
+                                                  List<String> failureMessages,
+                                                  DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher) {
         order.initCancel(failureMessages);
         log.info("Order payment is cancelling for order with id: {} ", order.getId().toString());
-        return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(TIMEZONE)));
+        return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(ZONE_ID)), orderCancelledEventDomainEventPublisher);
     }
 
     @Override
@@ -55,8 +62,8 @@ public class OrderDomainServiceImpl implements  OrderDomainService{
     }
 
     private void validateRestaurant(Restaurant restaurant) {
-        if(!restaurant.isActive()){
-            throw new OrderDomainException("Restaurant : " + restaurant.getId().getValue()+ " is not active for orders!");
+        if (!restaurant.isActive()) {
+            throw new OrderDomainException("Restaurant : " + restaurant.getId().getValue() + " is not active for orders!");
         }
     }
 
