@@ -2,6 +2,7 @@ package com.food.ordering.system.order.service.messaging.publisher.kafka;
 
 
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.food.ordering.system.kafka.producer.KafkaMessageHelper;
 import com.food.ordering.system.order.service.domain.config.OrderServiceConfigData;
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.food.ordering.system.kafka.producer.service.KafkaProducer;
@@ -17,16 +18,16 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
 
     private final OrderServiceConfigData orderServiceConfigData;
     private final OrderMessagingDataMapper orderMessagingDataMapper;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
     private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
 
     public CreateOrderKafkaMessagePublisher(OrderServiceConfigData orderServiceConfigData,
                                             OrderMessagingDataMapper orderMessagingDataMapper,
-                                            OrderKafkaMessageHelper orderKafkaMessageHelper,
+                                            KafkaMessageHelper kafkaMessageHelper,
                                             KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer) {
         this.orderServiceConfigData = orderServiceConfigData;
         this.orderMessagingDataMapper = orderMessagingDataMapper;
-        this.orderKafkaMessageHelper = orderKafkaMessageHelper;
+        this.kafkaMessageHelper = kafkaMessageHelper;
         this.kafkaProducer = kafkaProducer;
     }
 
@@ -42,7 +43,11 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
             kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
                     orderId,
                     paymentRequestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(), paymentRequestAvroModel)
+                    kafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentResponseTopicName(),
+                            paymentRequestAvroModel,
+                            orderId,
+                            "PaymentRequestAvroModel"
+                    )
             );
 
             log.info("PaymentRequestAvroModel sent to kafka for Order Id: {}", paymentRequestAvroModel.getOrderId());
