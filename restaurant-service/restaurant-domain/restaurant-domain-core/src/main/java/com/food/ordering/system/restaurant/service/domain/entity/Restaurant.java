@@ -49,6 +49,10 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
         orderDetail = builder.orderDetail;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
 
     public OrderApproval getOrderApproval() {
         return orderApproval;
@@ -56,6 +60,10 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
 
     public boolean isActive() {
         return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public OrderDetail getOrderDetail() {
@@ -69,10 +77,6 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
         private OrderDetail orderDetail;
 
         private Builder() {
-        }
-
-        public static Builder builder() {
-            return new Builder();
         }
 
         public Builder restaurantId(RestaurantId val) {
