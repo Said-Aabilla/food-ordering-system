@@ -1,8 +1,8 @@
 package com.food.ordering.system.order.service.data.access.restaurant.adapter;
 
 
-import com.food.ordering.system.order.service.data.access.restaurant.repository.RestaurantJpaRepository;
-import com.food.ordering.system.order.service.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.data.access.restaurant.repository.RestaurantJpaRepository;
 import com.food.ordering.system.order.service.data.access.restaurant.mapper.RestaurantDataAccessMapper;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
@@ -28,7 +28,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
         List<UUID> productIds = restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
 
-        Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository.findRestaurantEntitiesByRestaurantIdAndProductIdIn(restaurant.getId().getValue(), productIds);
+        Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository.findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(), productIds);
 
         return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
     }
