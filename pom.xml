@@ -109,6 +109,11 @@
                 <artifactId>common-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common-data-access</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
