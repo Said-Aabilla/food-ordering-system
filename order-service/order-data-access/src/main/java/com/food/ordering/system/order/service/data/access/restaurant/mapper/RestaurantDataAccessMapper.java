@@ -1,7 +1,7 @@
 package com.food.ordering.system.order.service.data.access.restaurant.mapper;
 
-import com.food.ordering.system.order.service.data.access.restaurant.exception.RestaurantDataAccessMapperException;
-import com.food.ordering.system.order.service.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.data.access.restaurant.entity.RestaurantEntity;
+import com.food.ordering.system.data.access.restaurant.exception.RestaurantDataAccessException;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.domain.valueobject.*;
@@ -26,7 +26,7 @@ public class RestaurantDataAccessMapper {
         RestaurantEntity restaurantEntity = restaurantEntities.stream()
                 .findFirst()
                 .orElseThrow(() ->
-                        new RestaurantDataAccessMapperException("Restaurant Entity Could Not Be Found !")
+                        new RestaurantDataAccessException("Restaurant Entity Could Not Be Found !")
                 );
 
         List<Product> restaurantProducts = restaurantEntities.stream()
