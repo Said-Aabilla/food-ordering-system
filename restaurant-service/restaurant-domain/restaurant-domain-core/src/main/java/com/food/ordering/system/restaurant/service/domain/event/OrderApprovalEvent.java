@@ -11,8 +11,8 @@ public abstract class OrderApprovalEvent implements DomainEvent<OrderApproval> {
 
     private final OrderApproval orderApproval;
     private final RestaurantId restaurantId;
-    private final List<String> failureMassages;
-    private final ZonedDateTime zonedDateTime;
+    private final List<String> failureMessages;
+    private final ZonedDateTime createdAt;
 
     public OrderApprovalEvent(OrderApproval orderApproval,
                               RestaurantId restaurantId,
@@ -20,8 +20,8 @@ public abstract class OrderApprovalEvent implements DomainEvent<OrderApproval> {
                               ZonedDateTime zonedDateTime) {
         this.orderApproval = orderApproval;
         this.restaurantId = restaurantId;
-        this.failureMassages = failureMassages;
-        this.zonedDateTime = zonedDateTime;
+        this.failureMessages = failureMassages;
+        this.createdAt = zonedDateTime;
     }
 
     public OrderApproval getOrderApproval() {
@@ -33,10 +33,10 @@ public abstract class OrderApprovalEvent implements DomainEvent<OrderApproval> {
     }
 
     public List<String> getFailureMassages() {
-        return failureMassages;
+        return failureMessages;
     }
 
-    public ZonedDateTime getZonedDateTime() {
-        return zonedDateTime;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 }
