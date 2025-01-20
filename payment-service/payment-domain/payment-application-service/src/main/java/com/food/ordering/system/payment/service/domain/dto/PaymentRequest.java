@@ -1,7 +1,6 @@
 package com.food.ordering.system.payment.service.domain.dto;
 
 import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
-import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class PaymentRequest {
     private String id;
     private String sagaId;
     private String orderId;
-    private String CustomerId;
+    private String customerId;
     private BigDecimal price;
     private Instant createdAt;
     private PaymentOrderStatus paymentOrderStatus;
