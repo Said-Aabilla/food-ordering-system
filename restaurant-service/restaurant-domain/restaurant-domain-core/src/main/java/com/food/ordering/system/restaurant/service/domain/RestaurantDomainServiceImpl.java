@@ -31,7 +31,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
                     ZonedDateTime.now(ZoneId.of(ZONE_ID)),
                     orderApprovedEventDomainEventPublisher);
         } else {
-            log.info("Order is rejected for order id: {}", restaurant.getOrderDetail().getId().getValue());
+            log.info("Order is rejected for order id: {} due to failure messages", restaurant.getOrderDetail().getId().getValue());
             restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
             return new OrderRejectedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),

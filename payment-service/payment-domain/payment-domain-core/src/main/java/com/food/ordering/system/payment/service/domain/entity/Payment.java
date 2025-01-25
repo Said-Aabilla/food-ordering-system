@@ -9,6 +9,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static com.food.ordering.system.domain.constant.DomainConstant.ZONE_ID;
+
 public class Payment extends AggregateRoot<PaymentId> {
 
     private final CustomerId customerId;
@@ -21,7 +23,7 @@ public class Payment extends AggregateRoot<PaymentId> {
 
     public void initializePayment(){
         setId(new PaymentId(UUID.randomUUID()));
-        createdAt = ZonedDateTime.now(ZoneId.of("GMT"));
+        createdAt = ZonedDateTime.now(ZoneId.of(ZONE_ID));
     }
 
     public void validatePayment(List<String> failureMessages){
