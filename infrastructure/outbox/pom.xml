@@ -5,17 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.ordering.system</groupId>
-        <artifactId>food-ordering-system</artifactId>
+        <artifactId>infrastructure</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>infrastructure</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>kafka</module>
-        <module>saga</module>
-        <module>outbox</module>
-    </modules>
+    <artifactId>outbox</artifactId>
 
+   <dependencies>
+       <dependency>
+           <groupId>com.food.ordering.system</groupId>
+           <artifactId>common-domain</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>com.food.ordering.system</groupId>
+           <artifactId>saga</artifactId>
+       </dependency>
+   </dependencies>
 
 </project>
