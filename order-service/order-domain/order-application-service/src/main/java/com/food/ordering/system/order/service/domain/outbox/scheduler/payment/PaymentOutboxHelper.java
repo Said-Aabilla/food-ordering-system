@@ -28,21 +28,28 @@ public class PaymentOutboxHelper {
 
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderPaymentOutboxMessage>> findByTypeAndOutboxStatus(OutboxStatus outboxStatus, SagaStatus... sagaStatus) {
+    public Optional<List<OrderPaymentOutboxMessage>> getOrderPaymentOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus, SagaStatus... sagaStatus) {
         return paymentOutboxRepository.findByTypeAndOutboxStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatus);
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderPaymentOutboxMessage>> findByTypeAndSagaIdAndOutboxStatus(UUID sagaId, SagaStatus... sagaStatus) {
+    public Optional<List<OrderPaymentOutboxMessage>> getOrderPaymentOutboxMessageBySagaIdAndOutboxStatus(UUID sagaId, SagaStatus... sagaStatus) {
         return paymentOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId, sagaStatus);
     }
 
     @Transactional
-    public void save(OrderPaymentOutboxMessage orderPaymentOutboxMessage){
+    public void save(OrderPaymentOutboxMessage orderPaymentOutboxMessage) {
         OrderPaymentOutboxMessage message = paymentOutboxRepository.save(orderPaymentOutboxMessage);
-        if(message==null){
+        if (message == null) {
             log.error("Could not save OrderPaymentOutboxMessage with outbox id: {}", orderPaymentOutboxMessage.getId().toString());
             throw new OrderDomainException("Could not save OrderPaymentOutboxMessage with outbox id: " + orderPaymentOutboxMessage.getId());
         }
+    }
+
+    @Transactional
+    public void deleteByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus, SagaStatus... sagaStatus) {
+        paymentOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME,
+                outboxStatus,
+                sagaStatus);
     }
 }

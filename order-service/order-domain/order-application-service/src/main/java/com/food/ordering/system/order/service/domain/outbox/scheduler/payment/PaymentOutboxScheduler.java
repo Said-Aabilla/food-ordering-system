@@ -35,7 +35,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
     public void processOutboxMessage() {
 
         Optional<List<OrderPaymentOutboxMessage>> orderPaymentOutboxMessages =
-                paymentOutboxHelper.findByTypeAndOutboxStatus(
+                paymentOutboxHelper.getOrderPaymentOutboxMessageByOutboxStatusAndSagaStatus(
                         OutboxStatus.STARTED,
                         SagaStatus.STARTED,
                         SagaStatus.COMPENSATING);
@@ -48,7 +48,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
                             .collect(Collectors.joining(",")));
 
             outboxMessages.forEach(outboxMessage ->
-                    paymentRequestMessagePublisher.publish(outboxMessage,this::updateOutboxStatus ));
+                    paymentRequestMessagePublisher.publish(outboxMessage, this::updateOutboxStatus));
             log.info("{} OrderPaymentOutboxMessage sent to message bus!", outboxMessages.size());
         }
     }
